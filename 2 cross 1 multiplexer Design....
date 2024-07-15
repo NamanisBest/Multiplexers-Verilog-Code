@@ -1,0 +1,62 @@
+//Behavioural Code
+
+module m21( D0, D1, S, Y);
+input wire D0, D1, S;
+output reg Y;
+always @(D0 or D1 or S)
+begin
+if(S) 
+Y= D1;
+else
+Y=D0;
+end
+endmodule
+
+
+
+
+// Data Flow Level Code
+
+module m21(D0, D1, S, Y);
+output Y;
+input D0, D1, S;
+assign Y=(S)?D1:D0;
+endmodule
+
+
+
+
+//Gate Level Code
+
+module m21(Y, D0, D1, S);
+output Y;
+input D0, D1, S;
+wire T1, T2, Sbar;
+and (T1, D1, S), (T2, D0, Sbar);
+not (Sbar, S);
+or (Y, T1, T2);
+endmodule
+
+
+
+
+//Structural code
+
+module and_gate(output a, input b, c);
+assign a = b & c;
+endmodule
+module not_gate(output d, input e);
+assign d = ~ e;
+endmodule
+module or_gate(output l, input m, n);
+assign l = m | n;
+endmodule
+module m21(Y, D0, D1, S);
+output Y;
+input D0, D1, S;
+wire T1, T2, T3;
+and_gate u1(T1, D1, S);
+not_gate u2(T2, S);
+and_gate u3(T3, D0, T2);
+or_gate u4(Y, T1, T3);
+endmodule
